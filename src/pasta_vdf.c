@@ -136,14 +136,6 @@ static void pnrt_pallas(vec256 ret, const vec256 p1)
     sqr_n_mul_pallas(ret, ret, 2, p1);
 
     add_pallas(ret, ret, zero);
-
-#if 0//ndef NDEBUG
-    sqr_n_mul_pallas(p101, ret, 2, ret);
-    if (!vec_is_equal(p1, p101, sizeof(p101))) {
-        print_vec256(p1);
-	abort();
-    }
-#endif
 }
 
 void minroot_pallas(xy256 xy_d, const xy256 xy0, size_t D)
@@ -230,14 +222,6 @@ static void pnrt_vesta(vec256 ret, const vec256 q1)
     sqr_n_mul_vesta(ret, ret, 2, q1);
 
     add_vesta(ret, ret, zero);
-
-#if 0//ndef NDEBUG
-    sqr_n_mul_vesta(q101, ret, 2, ret);
-    if (!vec_is_equal(q1, q101, sizeof(q1))) {
-        print_vec256(q1);
-	abort();
-    }
-#endif
 }
 
 void minroot_vesta(xy256 xy_d, const xy256 xy0, size_t D)
