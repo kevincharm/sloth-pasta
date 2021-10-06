@@ -85,10 +85,6 @@ static inline void sqr_n_mul_vesta(vec256 ret, const vec256 a, size_t n,
 static inline void from_vesta(vec256 ret, const vec256 a)
 {   from_mont_pasta(ret, a, Vesta_P, Vesta_p0);   }
 
-#ifndef NDEBUG
-static void print_vec256(const vec256 a);
-#endif
-
 /*
  * With https://github.com/zcash/pasta/blob/master/addchain_5inv.py as
  * template...
