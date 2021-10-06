@@ -14,6 +14,8 @@ There is room for improvement in disjoint multiplication and squaring subroutine
 
 C currently takes in and emits two-dimentional arrays of 64-bit limbs. This is surely less optimal from application viewpoint. Would it be more appropriate to take in and emit pairs of byte arrays? Or a double-width byte array? In other words C would take in and emit data in wire format.
 
+One can ask why not implement and expose just the elementary field operations. Rust over-relies on indirect subroutine calls, which contributes to uncertainty in critical paths' performance, more specifically in real-life applications. C provides adequate control over inter-procedural interaction. Not to mention that higher level interface is more practical to reuse from languages that are not as FFI-friendly as Rust.
+
 ### Platform support.
 
 ARM64 and legacy x86_64 are supported mostly to facilitate development, not production. In other words no assumptions are made about which computer is found on the application developer's desk or lap.
