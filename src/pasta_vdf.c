@@ -175,6 +175,35 @@ int minroot_verify_pallas(const xy256 xy_d, const xy256 xy0, size_t D)
                  vec_is_equal(yi, i, sizeof(yi)));
 }
 
+int minroot_partial_verify_pallas(const unsigned char xy_d[64],
+                                  const unsigned char xy0[64],
+                                  size_t D, size_t E)
+{
+    vec256 xi, yi, ti, i = { D+1 };
+
+    limbs_from_be_bytes(xi, xy_d, 32);
+    limbs_from_be_bytes(yi, xy_d+32, 32);
+    to_pallas(xi, xi);
+    to_pallas(yi, yi);
+    to_pallas(i, i);
+
+    while (D-- >= E) { /* E is assumed to be non-zero */
+        sqr_n_mul_pallas(ti, xi, 2, xi);
+        add_pallas(ti, ti, zero);
+        sub_pallas(i, i, Pallas_one);
+        sub_pallas(xi, yi, i);
+        sub_pallas(yi, ti, xi);
+    }
+
+    limbs_from_be_bytes(ti, xy0, 32);
+    limbs_from_be_bytes(i,  xy0+32, 32);
+    to_pallas(ti, ti);
+    to_pallas(i,  i);
+
+    return (int)(vec_is_equal(xi, ti, sizeof(xi)) &
+                 vec_is_equal(yi, i, sizeof(yi)));
+}
+
 static void pnrt_vesta(vec256 ret, const vec256 q1)
 {
     vec256 q11, q101, q111, q1001, q1111, q110011x4, q110011x8;
