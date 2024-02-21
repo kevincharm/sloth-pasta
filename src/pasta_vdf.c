@@ -11,18 +11,18 @@ void sqr_n_mul_mont_pasta(vec256 ret, const vec256 a, size_t n,
 
 static const vec256 zero = { 0 };
 
-/* 0x40000000000000000000000000000000224698fc094cf91b992d30ed00000001 */
+/* 0x40000000000000000000000000000000224698fc0994a8dd8c46eb2100000001 */
 static const vec256 Pallas_P = {
-    TO_LIMB_T(0x992d30ed00000001), TO_LIMB_T(0x224698fc094cf91b),
+    TO_LIMB_T(0x8c46eb2100000001), TO_LIMB_T(0x224698fc0994a8dd),
     TO_LIMB_T(0x0000000000000000), TO_LIMB_T(0x4000000000000000)
 };
-static const limb_t Pallas_p0 = 0x992d30ecffffffff;
+static const limb_t Pallas_p0 = 0x8c46eb20ffffffff;
 static const vec256 Pallas_RR = {
-    TO_LIMB_T(0x8c78ecb30000000f), TO_LIMB_T(0xd7d30dbd8b0de0e7),
-    TO_LIMB_T(0x7797a99bc3c95d18), TO_LIMB_T(0x096d41af7b9cb714)
+    TO_LIMB_T(0xfc9678ff0000000f), TO_LIMB_T(0x67bb433d891a16e3),
+    TO_LIMB_T(0x7fae231004ccf590), TO_LIMB_T(0x096d41af7ccfdaa9)
 };
 static const vec256 Pallas_one = {
-    TO_LIMB_T(0x34786d38fffffffd), TO_LIMB_T(0x992c350be41914ad),
+    TO_LIMB_T(0x5b2b3e9cfffffffd), TO_LIMB_T(0x992c350be3420567),
     TO_LIMB_T(0xffffffffffffffff), TO_LIMB_T(0x3fffffffffffffff)
 };
 
@@ -48,18 +48,18 @@ static inline void sqr_n_mul_pallas(vec256 ret, const vec256 a, size_t n,
 static inline void from_pallas(vec256 ret, const vec256 a)
 {   from_mont_pasta(ret, a, Pallas_P, Pallas_p0);   }
 
-/* 0x40000000000000000000000000000000224698fc0994a8dd8c46eb2100000001 */
+/* 0x40000000000000000000000000000000224698fc094cf91b992d30ed00000001 */
 static const vec256 Vesta_P = {
-    TO_LIMB_T(0x8c46eb2100000001), TO_LIMB_T(0x224698fc0994a8dd),
+    TO_LIMB_T(0x992d30ed00000001), TO_LIMB_T(0x224698fc094cf91b),
     TO_LIMB_T(0x0000000000000000), TO_LIMB_T(0x4000000000000000)
 };
-static const limb_t Vesta_p0 = 0x8c46eb20ffffffff;
+static const limb_t Vesta_p0 = 0x992d30ecffffffff;
 static const vec256 Vesta_RR = {
-    TO_LIMB_T(0xfc9678ff0000000f), TO_LIMB_T(0x67bb433d891a16e3),
-    TO_LIMB_T(0x7fae231004ccf590), TO_LIMB_T(0x096d41af7ccfdaa9)
+    TO_LIMB_T(0x8c78ecb30000000f), TO_LIMB_T(0xd7d30dbd8b0de0e7),
+    TO_LIMB_T(0x7797a99bc3c95d18), TO_LIMB_T(0x096d41af7b9cb714)
 };
 static const vec256 Vesta_one = {
-    TO_LIMB_T(0x5b2b3e9cfffffffd), TO_LIMB_T(0x992c350be3420567),
+    TO_LIMB_T(0x34786d38fffffffd), TO_LIMB_T(0x992c350be41914ad),
     TO_LIMB_T(0xffffffffffffffff), TO_LIMB_T(0x3fffffffffffffff)
 };
 
@@ -89,47 +89,47 @@ static inline void from_vesta(vec256 ret, const vec256 a)
  * With https://github.com/zcash/pasta/blob/master/addchain_5inv.py as
  * template...
  */
-static void pnrt_pallas(vec256 ret, const vec256 p1)
+static void pnrt_pallas(vec256 ret, const vec256 q1)
 {
-    vec256 p11, p101, p111, p1001, p1111, p110011x4, p110011x8;
+    vec256 q11, q101, q111, q1001, q1111, q110011x4, q110011x8;
 
-    /* 0x333333333333333333333333333333334e9ee0c9a10a60e2e0f0f3f0cccccccd */
-#define p10 ret
-#define p110 p110011x4
-    sqr_pallas(p10, p1);
-    mul_pallas(p11, p10, p1);
-    mul_pallas(p101, p10, p11);
-    sqr_pallas(p110, p11);
-    mul_pallas(p111, p110, p1);
-    mul_pallas(p1001, p111, p10);
-    mul_pallas(p1111, p1001, p110);
-    sqr_n_mul_pallas(p110011x4, p110, 3, p11);
-    sqr_n_mul_pallas(p110011x4, p110011x4, 8, p110011x4);
-    sqr_n_mul_pallas(p110011x8, p110011x4, 16, p110011x4);
-#undef p10
-#undef p110
+    /* 0x333333333333333333333333333333334e9ee0c9a143ba4ad69f2280cccccccd */
+#define q10 ret
+#define q110 q110011x4
+    sqr_pallas(q10, q1);
+    mul_pallas(q11, q10, q1);
+    mul_pallas(q101, q10, q11);
+    sqr_pallas(q110, q11);
+    mul_pallas(q111, q110, q1);
+    mul_pallas(q1001, q111, q10);
+    mul_pallas(q1111, q1001, q110);
+    sqr_n_mul_pallas(q110011x4, q110, 3, q11);
+    sqr_n_mul_pallas(q110011x4, q110011x4, 8, q110011x4);
+    sqr_n_mul_pallas(q110011x8, q110011x4, 16, q110011x4);
+#undef q10
+#undef q110
 
-    sqr_n_mul_pallas(ret, p110011x8, 32, p110011x8);
+    sqr_n_mul_pallas(ret, q110011x8, 32, q110011x8);
     sqr_n_mul_pallas(ret, ret, 64, ret);
-    sqr_n_mul_pallas(ret, ret, 5, p1001);
-    sqr_n_mul_pallas(ret, ret, 8, p111);
-    sqr_n_mul_pallas(ret, ret, 4, p1);
-    sqr_n_mul_pallas(ret, ret, 2, p110011x4);
-    sqr_n_mul_pallas(ret, ret, 7, p11);
-    sqr_n_mul_pallas(ret, ret, 6, p1001);
-    sqr_n_mul_pallas(ret, ret, 3, p101);
-    sqr_n_mul_pallas(ret, ret, 5, p1);
-    sqr_n_mul_pallas(ret, ret, 7, p101);
-    sqr_n_mul_pallas(ret, ret, 4, p11);
-    sqr_n_mul_pallas(ret, ret, 8, p111);
-    sqr_n_mul_pallas(ret, ret, 4, p1);
-    sqr_n_mul_pallas(ret, ret, 4, p111);
-    sqr_n_mul_pallas(ret, ret, 9, p1111);
-    sqr_n_mul_pallas(ret, ret, 8, p1111);
-    sqr_n_mul_pallas(ret, ret, 6, p1111);
-    sqr_n_mul_pallas(ret, ret, 2, p11);
-    sqr_n_mul_pallas(ret, ret, 34, p110011x8);
-    sqr_n_mul_pallas(ret, ret, 2, p1);
+    sqr_n_mul_pallas(ret, ret, 5, q1001);
+    sqr_n_mul_pallas(ret, ret, 8, q111);
+    sqr_n_mul_pallas(ret, ret, 4, q1);
+    sqr_n_mul_pallas(ret, ret, 2, q110011x4);
+    sqr_n_mul_pallas(ret, ret, 7, q11);
+    sqr_n_mul_pallas(ret, ret, 6, q1001);
+    sqr_n_mul_pallas(ret, ret, 3, q101);
+    sqr_n_mul_pallas(ret, ret, 7, q101);
+    sqr_n_mul_pallas(ret, ret, 7, q111);
+    sqr_n_mul_pallas(ret, ret, 4, q111);
+    sqr_n_mul_pallas(ret, ret, 5, q1001);
+    sqr_n_mul_pallas(ret, ret, 5, q101);
+    sqr_n_mul_pallas(ret, ret, 5, q111);
+    sqr_n_mul_pallas(ret, ret, 9, q111);
+    sqr_n_mul_pallas(ret, ret, 2, q110011x4);
+    sqr_n_mul_pallas(ret, ret, 4, q1001);
+    sqr_n_mul_pallas(ret, ret, 6, q101);
+    sqr_n_mul_pallas(ret, ret, 37, q110011x8);
+    sqr_n_mul_pallas(ret, ret, 2, q1);
 
     add_pallas(ret, ret, zero);
 }
@@ -204,47 +204,47 @@ int minroot_partial_verify_pallas(const unsigned char xy_d[64],
                  vec_is_equal(yi, i, sizeof(yi)));
 }
 
-static void pnrt_vesta(vec256 ret, const vec256 q1)
+static void pnrt_vesta(vec256 ret, const vec256 p1)
 {
-    vec256 q11, q101, q111, q1001, q1111, q110011x4, q110011x8;
+    vec256 p11, p101, p111, p1001, p1111, p110011x4, p110011x8;
 
-    /* 0x333333333333333333333333333333334e9ee0c9a143ba4ad69f2280cccccccd */
-#define q10 ret
-#define q110 q110011x4
-    sqr_vesta(q10, q1);
-    mul_vesta(q11, q10, q1);
-    mul_vesta(q101, q10, q11);
-    sqr_vesta(q110, q11);
-    mul_vesta(q111, q110, q1);
-    mul_vesta(q1001, q111, q10);
-    mul_vesta(q1111, q1001, q110);
-    sqr_n_mul_vesta(q110011x4, q110, 3, q11);
-    sqr_n_mul_vesta(q110011x4, q110011x4, 8, q110011x4);
-    sqr_n_mul_vesta(q110011x8, q110011x4, 16, q110011x4);
-#undef q10
-#undef q110
+    /* 0x333333333333333333333333333333334e9ee0c9a10a60e2e0f0f3f0cccccccd */
+#define p10 ret
+#define p110 p110011x4
+    sqr_vesta(p10, p1);
+    mul_vesta(p11, p10, p1);
+    mul_vesta(p101, p10, p11);
+    sqr_vesta(p110, p11);
+    mul_vesta(p111, p110, p1);
+    mul_vesta(p1001, p111, p10);
+    mul_vesta(p1111, p1001, p110);
+    sqr_n_mul_vesta(p110011x4, p110, 3, p11);
+    sqr_n_mul_vesta(p110011x4, p110011x4, 8, p110011x4);
+    sqr_n_mul_vesta(p110011x8, p110011x4, 16, p110011x4);
+#undef p10
+#undef p110
 
-    sqr_n_mul_vesta(ret, q110011x8, 32, q110011x8);
+    sqr_n_mul_vesta(ret, p110011x8, 32, p110011x8);
     sqr_n_mul_vesta(ret, ret, 64, ret);
-    sqr_n_mul_vesta(ret, ret, 5, q1001);
-    sqr_n_mul_vesta(ret, ret, 8, q111);
-    sqr_n_mul_vesta(ret, ret, 4, q1);
-    sqr_n_mul_vesta(ret, ret, 2, q110011x4);
-    sqr_n_mul_vesta(ret, ret, 7, q11);
-    sqr_n_mul_vesta(ret, ret, 6, q1001);
-    sqr_n_mul_vesta(ret, ret, 3, q101);
-    sqr_n_mul_vesta(ret, ret, 7, q101);
-    sqr_n_mul_vesta(ret, ret, 7, q111);
-    sqr_n_mul_vesta(ret, ret, 4, q111);
-    sqr_n_mul_vesta(ret, ret, 5, q1001);
-    sqr_n_mul_vesta(ret, ret, 5, q101);
-    sqr_n_mul_vesta(ret, ret, 5, q111);
-    sqr_n_mul_vesta(ret, ret, 9, q111);
-    sqr_n_mul_vesta(ret, ret, 2, q110011x4);
-    sqr_n_mul_vesta(ret, ret, 4, q1001);
-    sqr_n_mul_vesta(ret, ret, 6, q101);
-    sqr_n_mul_vesta(ret, ret, 37, q110011x8);
-    sqr_n_mul_vesta(ret, ret, 2, q1);
+    sqr_n_mul_vesta(ret, ret, 5, p1001);
+    sqr_n_mul_vesta(ret, ret, 8, p111);
+    sqr_n_mul_vesta(ret, ret, 4, p1);
+    sqr_n_mul_vesta(ret, ret, 2, p110011x4);
+    sqr_n_mul_vesta(ret, ret, 7, p11);
+    sqr_n_mul_vesta(ret, ret, 6, p1001);
+    sqr_n_mul_vesta(ret, ret, 3, p101);
+    sqr_n_mul_vesta(ret, ret, 5, p1);
+    sqr_n_mul_vesta(ret, ret, 7, p101);
+    sqr_n_mul_vesta(ret, ret, 4, p11);
+    sqr_n_mul_vesta(ret, ret, 8, p111);
+    sqr_n_mul_vesta(ret, ret, 4, p1);
+    sqr_n_mul_vesta(ret, ret, 4, p111);
+    sqr_n_mul_vesta(ret, ret, 9, p1111);
+    sqr_n_mul_vesta(ret, ret, 8, p1111);
+    sqr_n_mul_vesta(ret, ret, 6, p1111);
+    sqr_n_mul_vesta(ret, ret, 2, p11);
+    sqr_n_mul_vesta(ret, ret, 34, p110011x8);
+    sqr_n_mul_vesta(ret, ret, 2, p1);
 
     add_vesta(ret, ret, zero);
 }
